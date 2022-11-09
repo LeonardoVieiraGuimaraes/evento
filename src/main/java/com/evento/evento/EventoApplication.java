@@ -3,7 +3,7 @@ package com.evento.evento;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication(scanBasePackages = "com.evento.evento.controllers")
+@SpringBootApplication
 public class EventoApplication {
 
 	public static void main(String[] args) {
