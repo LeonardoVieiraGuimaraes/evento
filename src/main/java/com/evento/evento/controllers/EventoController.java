@@ -23,7 +23,7 @@ import com.evento.evento.repositories.ConvidadoRepository;
 import com.evento.evento.repositories.EventoRepository;
 
 @Controller
-@RequestMapping("/eventos")
+@RequestMapping
 public class EventoController {
 
     private EventoRepository eventoRepository;
@@ -34,24 +34,24 @@ public class EventoController {
         this.convidadoRepository = convidadoRepository;
     }
 
-    @GetMapping(value = "/cadastrar")
+    @GetMapping(value = "/eventos/cadastrar")
     public String form() {
         return "/eventos/formEvento";
     }
 
-    @PostMapping(value = "/cadastrar")
+    @PostMapping(value = "/eventos/cadastrar")
     public String form(@Valid EventoModel evento, BindingResult result, RedirectAttributes attributes) {
         if (result.hasErrors()) {
             attributes.addFlashAttribute("mensagem", "Verifique os Campos");
-            return "redirect:/eventos/cadastrar";
+            return "redirect:/eventos";
         }
 
         eventoRepository.save(evento);
         attributes.addFlashAttribute("mensagem", "Evento adicinado com sucesso!!");
-        return "redirect:/eventos/cadastrar";
+        return "redirect:/eventos";
     }
 
-    @GetMapping
+    @GetMapping("/eventos")
     public ModelAndView listaEventos() {
         ModelAndView mv = new ModelAndView("/eventos/listaEventos");
         Iterable<EventoModel> eventos = eventoRepository.findAll();
@@ -59,7 +59,7 @@ public class EventoController {
         return mv;
     }
 
-    @GetMapping("/{codigo}")
+    @GetMapping("/eventos/{codigo}")
     public ModelAndView detalhesEventoGet(@PathVariable("codigo") long codigo) {
         EventoModel evento = eventoRepository.findByCodigo(codigo);
         ModelAndView mv = new ModelAndView("/eventos/detalhesEvento");
@@ -69,7 +69,7 @@ public class EventoController {
         return mv;
     }
 
-    @PostMapping("/{codigo}")
+    @PostMapping("/eventos/{codigo}")
     public String detalhesEventoPost(@PathVariable("codigo") Long codigo,
             @Valid ConvidadoModel convidado, BindingResult result, RedirectAttributes attributes) {
 
@@ -87,7 +87,7 @@ public class EventoController {
     }
 
     // @Override
-    @GetMapping("/deletarEvento/{codigo}")
+    @GetMapping("/eventos/deletarEvento/{codigo}")
     public String deletarEvento(@PathVariable("codigo") Long codigo) {
         EventoModel evento = eventoRepository.findByCodigo(codigo);
 
@@ -95,7 +95,7 @@ public class EventoController {
         return "redirect:/eventos";
     }
 
-    @GetMapping("/deletarConvidado/{cpf}")
+    @GetMapping("/eventos/deletarConvidado/{cpf}")
     public String deletarConvidado(@PathVariable("cpf") String cpf) {
         ConvidadoModel convidado = convidadoRepository.findByCpf(cpf);
         convidadoRepository.delete(convidado);
