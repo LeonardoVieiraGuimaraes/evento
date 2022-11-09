@@ -32,26 +32,26 @@ public class EventoController {
         this.convidadoRepository = convidadoRepository;
     }
 
-    @GetMapping(value = "/eventos/cadastrar")
+    @GetMapping(value = "/cadastrar")
     public String form() {
         return "eventos/formEvento";
     }
 
-    @PostMapping(value = "/eventos/cadastrar")
+    @PostMapping(value = "/cadastrar")
     public String form(@Valid EventoModel evento, BindingResult result, RedirectAttributes attributes) {
         if (result.hasErrors()) {
             attributes.addFlashAttribute("mensagem", "Verifique os Campos");
-            return "redirect:/eventos";
+            return "redirect:/cadastrar";
         }
 
         eventoRepository.save(evento);
         attributes.addFlashAttribute("mensagem", "Evento adicinado com sucesso!!");
-        return "redirect:/eventos";
+        return "redirect:/cadastrar";
     }
 
-    @GetMapping(value = "/eventos")
+    @GetMapping("/eventos")
     public ModelAndView listaEventos() {
-        ModelAndView mv = new ModelAndView("/eventos/listaEventos");
+        ModelAndView mv = new ModelAndView("listaEventos");
         Iterable<EventoModel> eventos = eventoRepository.findAll();
         mv.addObject("eventos", eventos);
         return mv;
