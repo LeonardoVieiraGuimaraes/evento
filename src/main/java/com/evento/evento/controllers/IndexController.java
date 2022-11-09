@@ -1,13 +1,14 @@
 package com.evento.evento.controllers;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-
+@RequestMapping("/")
 public class IndexController {
-    @RequestMapping("/")
+    @GetMapping
     public String indexString() {
-        return "eventos/listaEventos";
+        return "redirect:/eventos";
     }
 }
